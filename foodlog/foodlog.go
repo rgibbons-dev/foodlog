@@ -10,13 +10,10 @@ import (
 	"github.com/xuri/excelize/v2"
 )
 
-var path string
-
 func excel(date string, food string) {
-	if path == "" {
-		fmt.Println("use `foodlog set --path <string>` to set a path to your spreadsheet")
-		return
-	}
+	// PUT THE PATH TO YOUR .xlxs FILE HERE
+	var path = ""
+
 	f, err := excelize.OpenFile(path)
 	if err != nil {
 		fmt.Println(err)
@@ -52,7 +49,6 @@ func excel(date string, food string) {
 func main() {
 	var date string
 	var food string
-	var newPath string
 
 	app := &cli.App{
 		Commands: []*cli.Command{
@@ -75,23 +71,6 @@ func main() {
 				},
 				Action: func(c *cli.Context) error {
 					excel(date, food)
-					return nil
-				},
-			},
-			{
-				Name:  "set",
-				Usage: "set the path to your spreadsheet",
-				Flags: []cli.Flag{
-					&cli.StringFlag{
-						Name:        "path",
-						Usage:       "the absolute path to your file",
-						Destination: &newPath,
-						Required:    true,
-					},
-				},
-				Action: func(c *cli.Context) error {
-					path = newPath
-					fmt.Println(path)
 					return nil
 				},
 			},
